@@ -16,7 +16,7 @@ defmodule ProjectManagementWeb.Router do
   scope "/api", ProjectManagementWeb do
     pipe_through :api
 
-    resources "/projects", ProjectController, only: [:index, :show, :update, :delete]
+    resources "/projects", ProjectController, only: [:index, :show, :create, :update, :delete]
   end
 
   # Other scopes may use custom stacks.
