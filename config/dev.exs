@@ -3,9 +3,10 @@ use Mix.Config
 # Configure your database
 config :project_management, ProjectManagement.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "sus@123456",
   database: "project_management_dev",
   hostname: "localhost",
+  port: 5442,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

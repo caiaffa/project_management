@@ -1,0 +1,41 @@
+defmodule ProjectManagementWeb.ProjectController do
+  use ProjectManagementWeb, :controller
+
+  alias ProjectManagement.Management
+  alias ProjectManagement.Management.Project
+
+  action_fallback ProjectManagementWeb.FallbackController
+
+  def index(conn, _params) do
+    projects = Management.list_projects()
+    render(conn, "index.json", projects: projects)
+  end
+
+  def create(conn, %{"project" => project_params}) do
+    with {:ok, %Project{} = project} <- Management.create_project(project_params) do
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", Routes.project_path(conn, :show, project))
+      |> render("show.json", project: project)
+    end
+  end
+
+  def show(conn, %{"id" => id}) do
+    with {:ok, %Project{} = project} <- Management.get_project(id) do
+      conn
+      |> render(conn, "show.json", project: project)
+    end
+  end
+
+  def update(conn, %{"id" => id, "project" => project_params}) do
+    with {:ok, %Project{} = project} <- Management.update_project(id, project_params) do
+      render(conn, "show.json", project: project)
+    end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    with {:ok, %Project{}} <- Management.delete_project(id) do
+      send_resp(conn, :no_content, "")
+    end
+  end
+end
